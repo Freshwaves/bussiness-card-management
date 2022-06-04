@@ -122,5 +122,45 @@ public class CardDAO {
             close(pstmt);
         } return insertCount;
     }
+    
+    /***** 명함 상세 보기 *****/
+	//쿼리에서 사번을 통해서 찾은 열을 객체에 담고, 반환한다.
+	public CardBean selectCard(int emp_num) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		CardBean card = null;
+		
+		try {
+			pstmt = con.prepareStatement("select * from bcard where EMP_NUM = ?");
+			pstmt.setInt(1,  emp_num);
+			rs = pstmt.executeQuery();
+			
+			//근무기간과 근속연도는 뷰에서 해당 데이터를 받은 뒤 표기할 것.
+			//현재 목록보기에서도 데이터를 다 놓고 있기에 목록보기와 상세보기 차별성이 없음. 반드시 알릴 것.
+			//한 줄만 불러오기에 while문이 아닌 if문을 사용함. 차이점 주의.
+			//그렇기에 자료구조가 필요치 아니하고, 한 개의 객체에 저장하여 반환함. -> add 필요없음.
+			if(rs.next()) {
+                card = new CardBean();
+                card.setEMP_NUM(rs.getInt("EMP_NUM"));
+                card.setNAME_KOR(rs.getString("NAME_KOR"));
+                card.setSOC_NUM(rs.getInt("SOC_NUM"));
+                card.setDEP_NUM(rs.getInt("DEP_NUM"));
+                card.setPOS_NUM(rs.getInt("POS_NUM"));
+                card.setMOBILE(rs.getInt("MOBILE"));
+                card.setPHONE(rs.getInt("PHONE"));
+                card.setFAX(rs.getInt("FAX"));
+                card.setEMAIL(rs.getString("EMAIL"));
+                card.setD_ENTRY(rs.getDate("D_ENTRY"));
+                card.setD_RESIGN(rs.getDate("D_RESIGN"));
+			}
+		}catch(Exception e){
+			System.out.println("CardDetail 에러 : " + e);
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
+		
+		return card;
+	}
 
 }
