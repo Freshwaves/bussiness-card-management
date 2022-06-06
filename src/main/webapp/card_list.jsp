@@ -6,7 +6,7 @@
 
 <%
 	ArrayList<CardBean> cardList=(ArrayList<CardBean>)request.getAttribute("cardList");
-    PageInfo pageInfo = (PageInfo)request.getAttribute("pageInfo");
+  	PageInfo pageInfo = (PageInfo)request.getAttribute("pageInfo");
 	int listCount=pageInfo.getListCount();
 	int nowPage=pageInfo.getPage();
 	int maxPage=pageInfo.getMaxPage();
@@ -19,7 +19,6 @@
 <head>
 <meta charset="UTF-8" />
 <title>명함 관리 시스템 : 명함 목록</title>
-<link rel="stylesheet" href="css/style.css">
 <style type="text/css">
   @font-face {
     src: url("../fonts/LeferiBaseRegular.ttf");
@@ -95,29 +94,28 @@ h2 {
   </section>
   <section id="pageList">
       <% if (nowPage <= 1) { %>
-        이전%nbsp|
+        이전 |
       <% } else { %>
-        <a href="cardList.bo?page="<%=nowPage-1 %>">[이전]</a>&nbsp;
+        <a href="cardList.bo?page=<%=nowPage-1 %>">이전 |</a>&nbsp;
       <% } %>
       <%for(int a = startPage; a <= endPage; a++) {
           if (a == nowPage){ %>
       [<%=a %>]
       <%} else { %>
-      <a href="boardList.bo?page=<%=a %>">[<%=a %>]</a>&nbsp;
+      <a href="cardList.bo?page=<%=a %>"><%=a %></a>&nbsp;
       <%} %>
       <%} %>
       <% if (nowPage >= maxPage) { %>
-        다음
+			| 다음
       <% } else { %>
-        	<a href="cardList.bo?page=<%=nowPage+1 %>">다음</a>
+        	<a href="cardList.bo?page=<%=nowPage+1 %>">| 다음</a>
       <% } %>
-    -->
-		<a href="">이전</a> | 1 | <a href="">다음</a>
 	</section>
   <section id="emptyArea">
   <% }
   }else { %>
     <section><hr><h2 style="font-size:15px">등록된 명함이 없습니다.</h2></section>
   <% }%>
+  </section>
   </body>
 </html>
